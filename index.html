@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollegeMatch</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .required::after {
+            content: " *";
+            color: red;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .radio-group {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .radio-group input {
+            width: auto;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Add borders between rows and columns */
+        table td, table th {
+            border: 1px solid #ddd;
+        }
+
+        /* Center the table header text */
+        table th {
+            text-align: center;
+        }
+        .hidden {
+    display: none;
+}
+
+        /* Responsiveness: make the table scrollable on small screens */
+        @media screen and (max-width: 768px) {
+            table {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            table th, table td {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        function toggleInput(option) {
+            const rankField = document.getElementById('rankField');
+            const percentageField = document.getElementById('percentageField');
+
+            if (option.value === 'rank') {
+                rankField.classList.remove('hidden');
+                percentageField.classList.add('hidden');
+                document.getElementById('percentage').value = '';
+            } else if (option.value === 'percentage') {
+                percentageField.classList.remove('hidden');
+                rankField.classList.add('hidden');
+                document.getElementById('rank').value = '';
+            }
+        }
+
+        function validateForm(event) {
+            const rank = document.getElementById('rank').value;
+            const percentage = document.getElementById('percentage').value;
+            const rankRadio = document.getElementById('rankRadio').checked;
+            const percentageRadio = document.getElementById('percentageRadio').checked;
+
+            if (!rankRadio && !percentageRadio) {
+                alert('Please select either Rank or Percentage.');
+                event.preventDefault();
+            } else if (rankRadio && !rank) {
+                alert('Please enter your Rank.');
+                event.preventDefault();
+            } else if (percentageRadio && !percentage) {
+                alert('Please enter your Percentage.');
+                event.preventDefault();
+            }
+            console.log(event.target);
+
+        }
+    </script>
+</head>
+
+<body>
+    <h1>CollegeMatch</h1>
+    <form id="collegeForm" onsubmit="validateForm(event)">
+        <label for="studentName" class="required">Student Name:</label>
+        <input type="text" id="studentName" name="studentName" placeholder="Enter your name" required>
+
+        <div class="radio-group">
+            <label class="required">Gender:</label>
+            <input type="radio" id="maleRadio" name="gender" value="g" onchange="toggleInput(this)" required>
+            <label for="maleRadio">Male</label>
+            <input type="radio" id="femaleRadio" name="gender" value="l" onchange="toggleInput(this)" required>
+            <label for="femaleRadio">Fe-male</label>
+        </div>
+        <div class="radio-group">
+            <label class="required">Academic Percentage:</label>
+            <input type="radio" id="rankRadio" name="scoreType" value="rank" onchange="toggleInput(this)" required>
+            <label for="rankRadio">Rank</label>
+            <input type="radio" id="percentageRadio" name="scoreType" value="percentage" onchange="toggleInput(this)"
+                required>
+            <label for="percentageRadio">Percentage</label>
+        </div>
+
+        <div id="rankField" class="hidden">
+            <label for="rank" class="required">Rank:</label>
+            <input type="number" id="rank" name="rank" placeholder="Enter your rank">
+        </div>
+
+        <div id="percentageField" class="hidden">
+            <label for="percentage" class="required">Percentage:</label>
+            <input type="number" step="0.01" id="percentage" name="percentage" placeholder="Enter your percentage">
+        </div>
+
+        <label for="category" class="required">Select your caste:</label>
+        <select id="category" name="category" required>
+            <option value="">-- Select --</option>
+            <option value="OPEN">OPEN</option>
+            <option value="SC">SC</option>
+            <option value="ST">ST</option>
+            <option value="NTA">NTA</option>
+            <option value="NTB">NTB</option>
+            <option value="NTC">NTC</option>
+            <option value="NTD">NTD</option>
+            <option value="OBC">OBC</option>
+            <option value="DEF-O">DEF-O</option>
+            <option value="EWS">EWS</option>
+
+        </select>
+
+
+        <label for="districts" class="required">Select multiple districts of Maharashtra:</label>
+        <select id="districts" name="districts" required>
+            <option value="Amravati">Amravati</option>
+            <option value="Yavatmal">Yavatmal</option>
+            <option value="Buldhana">Buldhana</option>
+            <option value="Akola">Akola</option>
+            <option value="Washim">Washim</option>
+            <option value="Aurangabad">Aurangabad</option>
+            <option value="Nanded">Nanded</option>
+            <option value="Latur">Latur</option>
+            <option value="Osmanabad">Osmanabad</option>
+            <option value="Beed">Beed</option>
+            <option value="Jalna">Jalna</option>
+            <option value="Parbhani">Parbhani</option>
+            <option value="Mumbai City">Mumbai City</option>
+            <option value="Mumbai Suburban">Mumbai Suburban</option>
+            <option value="Raigad">Raigad</option>
+            <option value="Ratnagiri">Ratnagiri</option>
+            <option value="Thane">Thane</option>
+            <option value="Palghar">Palghar</option>
+            <option value="Sindhudurg">Sindhudurg</option>
+            <option value="Chandrapur">Chandrapur</option>
+            <option value="Nagpur">Nagpur</option>
+            <option value="Wardha">Wardha</option>
+            <option value="Bhandara">Bhandara</option>
+            <option value="Jalgaon">Jalgaon</option>
+            <option value="Dhule">Dhule</option>
+            <option value="Nashik">Nashik</option>
+            <option value="Ahmednagar">Ahmednagar</option>
+            <option value="Pune">Pune</option>
+            <option value="Satara">Satara</option>
+            <option value="Sangli">Sangli</option>
+            <option value="Kolhapur">Kolhapur</option>
+            <option value="Solapur">Solapur</option>
+        </select>
+        <label for="courseName" class="required">Select Course Name:</label>
+        <select id="courseName" name="courseName" required>
+            <option value="">-- Select --</option>
+            <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+            <option value="Agricultural Engineering">Agricultural Engineering</option>
+            <option value="Agriculture Engineering">Agriculture Engineering</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="Artificial Intelligence (AI) and Data Science">Artificial Intelligence (AI) and Data Science
+            </option>
+            <option value="Artificial Intelligence and Data Science">Artificial Intelligence and Data Science</option>
+            <option value="Artificial Intelligence and Machine Learning">Artificial Intelligence and Machine Learning
+            </option>
+            <option value="Automation and Robotics">Automation and Robotics</option>
+            <option value="Automobile Engineering">Automobile Engineering</option>
+            <option value="Automotive Technology">Automotive Technology</option>
+            <option value="Bio Medical Engineering">Bio Medical Engineering</option>
+            <option value="Bio Technology">Bio Technology</option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
+            <option value="Civil and Environmental Engineering">Civil and Environmental Engineering</option>
+            <option value="Civil and infrastructure Engineering">Civil and infrastructure Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Computer Engineering">Computer Engineering</option>
+            <option value="Computer Engineering (Regional Language)">Computer Engineering (Regional Language)</option>
+            <option value="Computer Science and Business Systems">Computer Science and Business Systems</option>
+            <option value="Computer Science and Design">Computer Science and Design</option>
+            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+            <option value="Computer Science and Engineering (Artificial Intelligence and Data Science)">Computer Science
+                and Engineering (Artificial Intelligence and Data Science)</option>
+            <option value="Computer Science and Engineering (Artificial Intelligence)">Computer Science and Engineering
+                (Artificial Intelligence)</option>
+            <option value="Computer Science and Engineering (Cyber Security)">Computer Science and Engineering (Cyber
+                Security)</option>
+            <option
+                value="Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain Technology)">
+                Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain
+                Technology)</option>
+            <option value="Computer Science and Engineering (IoT)">Computer Science and Engineering (IoT)</option>
+            <option value="Computer Science and Engineering(Artificial Intelligence and Machine Learning)">Computer
+                Science and Engineering(Artificial Intelligence and Machine Learning)</option>
+            <option value="Computer Science and Engineering(Cyber Security)">Computer Science and Engineering(Cyber
+                Security)</option>
+            <option value="Computer Science and Engineering(Data Science)">Computer Science and Engineering(Data
+                Science)</option>
+            <option value="Computer Science and Information Technology">Computer Science and Information Technology
+            </option>
+            <option value="Computer Science and Technology">Computer Science and Technology</option>
+            <option value="Computer Technology">Computer Technology</option>
+            <option value="Course Name">Course Name</option>
+            <option value="Cyber Security">Cyber Security</option>
+            <option value="Data Engineering">Data Engineering</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Electrical and Computer Engineering">Electrical and Computer Engineering</option>
+            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+            <option value="Electrical Engg [Electrical and Power">Electrical Engg [Electrical and Power</option>
+            <option value="Electrical Engg[Electronics and Power">Electrical Engg[Electronics and Power</option>
+            <option value="Electrical Engineering">Electrical Engineering</option>
+            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+            <option value="Electronics and Computer Engineering">Electronics and Computer Engineering</option>
+            <option value="Electronics and Computer Science">Electronics and Computer Science</option>
+            <option value="Electronics and Telecommunication Engg">Electronics and Telecommunication Engg</option>
+            <option value="Electronics Engineering">Electronics Engineering</option>
+            <option value="Electronics Engineering ( VLSI Design and Technology)">Electronics Engineering ( VLSI Design
+                and Technology)</option>
+            <option value="Fashion Technology">Fashion Technology</option>
+            <option value="Food Technology">Food Technology</option>
+            <option value="Food Technology And Management">Food Technology And Management</option>
+            <option value="Industrial IoT">Industrial IoT</option>
+            <option value="Information Technology">Information Technology</option>
+            <option value="Instrumentation and Control Engineering">Instrumentation and Control Engineering</option>
+            <option value="Instrumentation Engineering">Instrumentation Engineering</option>
+            <option value="Internet of Things (IoT)">Internet of Things (IoT)</option>
+            <option value="Man Made Textile Technology">Man Made Textile Technology</option>
+            <option value="Manufacturing Science and Engineering">Manufacturing Science and Engineering</option>
+            <option value="Mechanical & Automation Engineering">Mechanical & Automation Engineering</option>
+            <option value="Mechanical and Mechatronics Engineering (Additive Manufacturing)">Mechanical and Mechatronics
+                Engineering (Additive Manufacturing)</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Mechanical Engineering[Sandwich">Mechanical Engineering[Sandwich</option>
+            <option value="Mechatronics Engineering">Mechatronics Engineering</option>
+            <option value="Metallurgy and Material Technology">Metallurgy and Material Technology</option>
+            <option value="Mining Engineering">Mining Engineering</option>
+            <option value="Oil and Paints Technology">Oil and Paints Technology</option>
+            <option value="Oil Fats and Waxes Technology">Oil Fats and Waxes Technology</option>
+            <option value="Oil Technology">Oil Technology</option>
+            <option value="Paints Technology">Paints Technology</option>
+            <option value="Paper and Pulp Technology">Paper and Pulp Technology</option>
+            <option value="Petro Chemical Engineering">Petro Chemical Engineering</option>
+            <option value="Petro Chemical Technology">Petro Chemical Technology</option>
+            <option value="Pharmaceutical and Fine Chemical Technology">Pharmaceutical and Fine Chemical Technology
+            </option>
+            <option value="Plastic and Polymer Engineering">Plastic and Polymer Engineering</option>
+            <option value="Plastic and Polymer Technology">Plastic and Polymer Technology</option>
+            <option value="Plastic Technology">Plastic Technology</option>
+            <option value="Printing Technology">Printing Technology</option>
+            <option value="Production Engineering">Production Engineering</option>
+            <option value="Production Engineering[Sandwich">Production Engineering[Sandwich</option>
+            <option value="Robotics">Robotics</option>
+            <option value="Robotics and Artificial Intelligence">Robotics and Artificial Intelligence</option>
+            <option value="Robotics and Automation">Robotics and Automation</option>
+            <option value="Safety and Fire Engineering">Safety and Fire Engineering</option>
+            <option value="Structural Engineering">Structural Engineering</option>
+            <option value="Surface Coating Technology">Surface Coating Technology</option>
+            <option value="Textile Chemistry">Textile Chemistry</option>
+            <option value="Textile Engineering / Technology">Textile Engineering / Technology</option>
+            <option value="Textile Plant Engineering">Textile Plant Engineering</option>
+            <option value="Textile Technology">Textile Technology</option>
+        </select>
+        <label for="collegeType" class="required">Select college type:</label>
+        <select id="collegeType" name="collegeType" required>
+            <option value="">-- Select --</option>
+            <option value="Government - Autonomous">Government - Autonomous</option>
+            <option value="University - Autonomous">University - Autonomous</option>
+            <option value="Government">Government</option>
+            <option value="Un-Aided">Un-Aided</option>
+            <option value="Government-Aided - Autonomous">Government-Aided - Autonomous</option>
+            <option value="Un-Aided - Autonomous">Un-Aided - Autonomous</option>
+        </select>
+
+        <button type="submit">Submit</button>
+        <div id="colleges-container" class="hidden">
+            <h1>List of Colleges</h1>
+            <div>
+                <table id="collegeTable" border="1">
+                    <thead>
+                        <tr>
+                            <th>College Code</th>
+                            <th>College Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+    <script>
+        function convertToLowerCase(formData) {
+            for (let [key, value] of formData.entries()) {
+                formData.set(key, value.toString().toLowerCase());
+            }
+        }
+        document.getElementById('collegeForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this); // Get form data
+            convertToLowerCase(formData);
+            const data = Object.fromEntries(formData); // Convert FormData to plain object
+
+            console.log(data); // Debug: Log the form data to the console
+
+            // Make an AJAX request using fetch
+            fetch('http://127.0.0.1:8000/filter-colleges/', { // Replace with your server endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Specify JSON format
+                },
+                body: JSON.stringify(data), // Convert form data to JSON
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json(); // Parse JSON response
+                })
+                .then(result => {
+                    console.log('Success:', result);
+                    showdata(result) // Handle success
+                    
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Handle errors
+                    alert('There was an error submitting the form.');
+                });
+        });
+
+        function showdata(data) {
+    const tableBody = document.querySelector('#collegeTable tbody');
+
+    if (data.message) {
+        alert(data.message);
+        return;
+    }
+
+    // Prepare an array of colleges
+    let colleges = [];
+    for (let collegeCode in data.colleges['college code']) {
+        const collegeName = data.colleges['college name'][collegeCode];
+        const categoryColumnCombined = data.colleges['category_column_combined'][collegeCode];
+
+        colleges.push({
+            collegeCode,
+            collegeName,
+            categoryColumnCombined
+        });
+    }
+
+    // Sort the colleges array by the 'categoryColumnCombined'
+    colleges.sort((a, b) => {
+        if (a.categoryColumnCombined < b.categoryColumnCombined) {
+            return -1;
+        } else if (a.categoryColumnCombined > b.categoryColumnCombined) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+    // Clear existing rows in the table
+    tableBody.innerHTML = '';
+
+    // Create a new row for each sorted college
+    colleges.forEach(college => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${college.collegeCode}</td>
+            <td>${college.collegeName}</td>
+            <td>${college.categoryColumnCombined}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Make the colleges container visible
+    document.getElementById('colleges-container').classList.remove('hidden');
+}
+
+    </script>
+
+</body>
+
+</html>
